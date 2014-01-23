@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "torchController.h"
 
-@interface ViewController : UIViewController
+@interface ViewController : UIViewController <UITextFieldDelegate,torchDelegate>
 
 @end

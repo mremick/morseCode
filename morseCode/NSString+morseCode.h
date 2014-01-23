@@ -10,4 +10,6 @@
 
 @interface NSString (morseCode)
 
+- (NSArray *)symbolsForString;
+
 @end
