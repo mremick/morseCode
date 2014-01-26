@@ -15,9 +15,11 @@
 #define SYMBOL_PAUSE .1
 #define WORD_PAUSE .5
 
-@interface torchController()
+#define UNIT 100000
 
-@property (strong,nonatomic) NSOperationQueue *backgroundQueue;
+@interface torchController() 
+ 
+
 @property (strong,nonatomic) AVCaptureDevice *captureDevice;
 
 
@@ -26,18 +28,25 @@
 
 @implementation torchController
 
+- (void)allocInitBackgroundQueue
+{
+   
+    NSLog(@"Background queue alloc and inited"); 
+}
+
+
 - (void)turnOnFlash:(AVCaptureDevice *)device
 {
     [device lockForConfiguration:nil];
     [device setTorchMode:AVCaptureTorchModeOn];
-    [device setFlashMode:AVCaptureFlashModeOn];
+    //[device setFlashMode:AVCaptureFlashModeOff];
 }
 
 - (void)turnOffFlash:(AVCaptureDevice *)device
 {
     [device lockForConfiguration:nil];
     [device setTorchMode:AVCaptureTorchModeOff];
-    [device setFlashMode:AVCaptureFlashModeOn];
+    //[device setFlashMode:AVCaptureFlashModeOn];
 }
 
 - (void)flash:(NSMutableArray *)array
@@ -49,9 +58,9 @@
     //method to return a letter
     //self.letterLabel.text = [self.slicedText objectAtIndex:i];
     
-    
     self.backgroundQueue = [[NSOperationQueue alloc] init];
     [self.backgroundQueue setMaxConcurrentOperationCount:1];
+    
     
     
     [self.delegate letterHasChanged:i];
@@ -62,9 +71,10 @@
             
             [self.backgroundQueue addOperationWithBlock:^{
                 [self turnOnFlash:self.captureDevice];
-                usleep(1000000);
+                usleep(UNIT);//UNIT
                 [self turnOffFlash:self.captureDevice];
-                usleep(1000000);
+                usleep(UNIT);
+                [self pauseBetweenLetters];
                 NSLog(@"SYMBOL:%@",symbol);
                 hudProgress ++;
                 [self.delegate progressHudStatus:hudProgress/array.count];
@@ -77,9 +87,10 @@
             
             [self.backgroundQueue addOperationWithBlock:^{
                 [self turnOnFlash:self.captureDevice];
-                usleep(300000);
+                usleep(UNIT*3); //UNIT*3
                 [self turnOffFlash:self.captureDevice];
-                usleep(300000);
+                usleep(UNIT*3);
+                [self pauseBetweenLetters];
                 NSLog(@"SYMBOL:%@",symbol);
                 hudProgress++;
                 [self.delegate progressHudStatus:hudProgress/array.count];
@@ -93,9 +104,10 @@
             
             [self.backgroundQueue addOperationWithBlock:^{
                 [self turnOnFlash:self.captureDevice];
-                usleep(100000);
+                usleep(UNIT); //UNIT
                 [self turnOffFlash:self.captureDevice];
-                usleep(100000);
+                usleep(UNIT);
+                [self pauseBetweenLetters];
                 NSLog(@"SYMBOL:%@",symbol);
                 hudProgress++;
                 [self.delegate progressHudStatus:hudProgress/array.count];
@@ -105,13 +117,15 @@
             
         }
         
+        /*
         else if ([symbol isEqualToString:@"*"]) {
             
             [self.backgroundQueue addOperationWithBlock:^{
                 [self turnOnFlash:self.captureDevice];
-                usleep(500000);
+                usleep(UNIT*5); //UNIT*5
                 [self turnOffFlash:self.captureDevice];
-                usleep(500000);
+                usleep(UNIT*5);
+                [self pauseBetweenLetters];
                 NSLog(@"SYMBOL:%@",symbol);
                 hudProgress++;
                 [self.delegate progressHudStatus:hudProgress/array.count];
@@ -120,14 +134,16 @@
             
             
         }
+         */
         
         else if ([symbol isEqualToString:@"^"]) {
             
             [self.backgroundQueue addOperationWithBlock:^{
-                [self turnOnFlash:self.captureDevice];
-                usleep(100000);
-                [self turnOffFlash:self.captureDevice];
-                usleep(100000);
+                //[self turnOnFlash:self.captureDevice];
+                usleep(UNIT*7); //UNIT*7
+                //[self turnOffFlash:self.captureDevice];
+                //usleep(UNIT*5);
+                [self pauseBetweenLetters];
                 i++;
                 hudProgress++;
                 [self.delegate progressHudStatus:hudProgress/array.count];
@@ -183,6 +199,13 @@
         [self flash:eachCharacter];
         
     }
+}
+
+- (void)pauseBetweenLetters
+{
+    [self.backgroundQueue addOperationWithBlock:^{
+        usleep(UNIT);
+    }];
 }
 
 - (void)cancelAllBackgroundOperations

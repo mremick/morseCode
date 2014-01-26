@@ -39,6 +39,7 @@
     
     self.textField.delegate = self;
     
+    [self.torch allocInitBackgroundQueue];
     
 }
 

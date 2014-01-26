@@ -25,6 +25,11 @@
 - (void)turnStringIntoTorch:(NSArray *)array;
 - (void)cancelAllBackgroundOperations;
 
+- (void)allocInitBackgroundQueue; 
+
+@property (strong,nonatomic) NSOperationQueue *backgroundQueue;
+
+
 @property (unsafe_unretained) id <torchDelegate> delegate; 
 
 @end
