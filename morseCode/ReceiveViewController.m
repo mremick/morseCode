@@ -12,7 +12,8 @@
 @interface ReceiveViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *receiveTextField;
 - (IBAction)startReceiving:(id)sender;
-@property (strong,nonatomic) NSMutableArray *timeIntervals;
+@property (strong,nonatomic) NSMutableArray *symbolsArray;
+@property (strong,nonatomic) NSString *symbolsTogether;
 
 @end
 
@@ -31,6 +32,8 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    self.symbolsArray = [NSMutableArray new];
+    self.symbolsTogether = [NSString new];
     
     
 }
@@ -55,8 +58,11 @@
 {
     dispatch_async(dispatch_get_main_queue(), ^{
         //YOUR CODE HERE
-        [self turnIntToSymbol:self.lightSeen];
+        //NSLog(@"light seen interval:%d",self.lightSeen);
+        [self turnIntToSymbolForLight:self.lightSeen];
         self.lightSeen = 0;
+        [self turnIntToSymbolForDrkness:self.lightNotSeen];
+
         self.lightNotSeen++;
     });
 }
@@ -65,7 +71,7 @@
 {
     dispatch_async(dispatch_get_main_queue(), ^{
         //YOUR CODE HERE
-        [self turnIntToSymbol:self.lightNotSeen];
+        //NSLog(@"light not seen interval:%d",self.lightNotSeen);
         self.lightNotSeen = 0;
         self.lightSeen++;
     });
@@ -85,7 +91,50 @@
     NSLog(@"start receiving selected");
 }
 
-- (void)turnIntToSymbol:(int)timeInterval{
-    NSLog(@"interval:%d",timeInterval);
+- (void)turnIntToSymbolForLight:(int)timeInterval{
+    //NSLog(@"light interval:%d",timeInterval);
+    //NSLog(@"light interval: %d",timeInterval);
+    if (timeInterval > 2 && timeInterval <= 8) {
+        NSLog(@".");
+        if ([self.symbolsTogether length] == 0) {
+            self.symbolsTogether = @".";
+        }
+        
+        else {
+            [self.symbolsTogether stringByAppendingString:@"."];
+        }
+    }
+    
+    else if (timeInterval >= 9) {
+        NSLog(@"-");
+        if ([self.symbolsTogether length] == 0) {
+            self.symbolsTogether = @"-";
+        }
+        
+        else {
+            [self.symbolsTogether stringByAppendingString:@"-"];
+
+        }
+
+    }
+}
+
+- (void)turnIntToSymbolForDrkness:(int)timeInterval{
+    //NSLog(@"darkness interval interval:%d",timeInterval);
+    
+    if (timeInterval > 4 && timeInterval <= 50) {
+        NSLog(@" ");
+        [self.symbolsArray addObject:self.symbolsTogether];
+        [self.symbolsArray addObject:@" "];
+        self.symbolsTogether = nil;
+        self.symbolsTogether = [NSString new];
+    }
+    
+    else if (timeInterval == 50) {
+        [_cfMagicEvents stopCapture];
+        NSLog(@"ARRAY: %@",self.symbolsArray);
+    }
+    
+    
 }
 @end

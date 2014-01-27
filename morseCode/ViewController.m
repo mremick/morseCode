@@ -17,6 +17,8 @@
 
 @property (weak, nonatomic) IBOutlet UITextField *textField;
 
+@property (weak, nonatomic) IBOutlet UIButton *sendButton;
+@property (weak, nonatomic) IBOutlet UIButton *cancelButton;
 
 @property (strong,nonatomic) NSMutableArray *slicedText;
 - (IBAction)cancel:(id)sender;
@@ -38,6 +40,9 @@
 	// Do any additional setup after loading the view, typically from a nib.
     
     self.textField.delegate = self;
+    
+    self.sendButton.layer.cornerRadius = 60;
+    self.cancelButton.layer.cornerRadius = 60;
     
     [self.torch allocInitBackgroundQueue];
     

@@ -26,6 +26,8 @@
 		3E977775188DB097004CE4EA /* morseCodeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E977774188DB097004CE4EA /* morseCodeTests.m */; };
 		3E977780188DB0F5004CE4EA /* NSString+morseCode.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E97777F188DB0F5004CE4EA /* NSString+morseCode.m */; };
 		3E977783188F2204004CE4EA /* torchController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E977782188F2204004CE4EA /* torchController.m */; };
+		3EB6EF1E1896001400EAD730 /* circularButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EB6EF1D1896001400EAD730 /* circularButton.m */; };
+		3EB6EF211896023A00EAD730 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EB6EF201896023A00EAD730 /* RootViewController.m */; };
 		AC8C895DDC7647118B932F2F /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 99038BA477DF43B685DE8E21 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -69,6 +71,10 @@
 		3E97777F188DB0F5004CE4EA /* NSString+morseCode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+morseCode.m"; sourceTree = "<group>"; };
 		3E977781188F2204004CE4EA /* torchController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = torchController.h; sourceTree = "<group>"; };
 		3E977782188F2204004CE4EA /* torchController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = torchController.m; sourceTree = "<group>"; };
+		3EB6EF1C1896001400EAD730 /* circularButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = circularButton.h; sourceTree = "<group>"; };
+		3EB6EF1D1896001400EAD730 /* circularButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = circularButton.m; sourceTree = "<group>"; };
+		3EB6EF1F1896023A00EAD730 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
+		3EB6EF201896023A00EAD730 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
 		99038BA477DF43B685DE8E21 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		F55AE3F1DA5946BA854EF043 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
@@ -142,12 +148,16 @@
 				3E342A201894D038004C262A /* ReceiveViewController.m */,
 				3E977781188F2204004CE4EA /* torchController.h */,
 				3E977782188F2204004CE4EA /* torchController.m */,
+				3EB6EF1F1896023A00EAD730 /* RootViewController.h */,
+				3EB6EF201896023A00EAD730 /* RootViewController.m */,
 				3E342A251894E23F004C262A /* TranslateController.h */,
 				3E342A261894E23F004C262A /* TranslateController.m */,
 				3E342A221894D36B004C262A /* CFMagicEvents.h */,
 				3E342A231894D36B004C262A /* CFMagicEvents.m */,
 				3E97777E188DB0F5004CE4EA /* NSString+morseCode.h */,
 				3E97777F188DB0F5004CE4EA /* NSString+morseCode.m */,
+				3EB6EF1C1896001400EAD730 /* circularButton.h */,
+				3EB6EF1D1896001400EAD730 /* circularButton.m */,
 				3E977761188DB097004CE4EA /* Images.xcassets */,
 				3E977750188DB097004CE4EA /* Supporting Files */,
 			);
@@ -322,8 +332,10 @@
 				3E977760188DB097004CE4EA /* ViewController.m in Sources */,
 				3E342A271894E23F004C262A /* TranslateController.m in Sources */,
 				3E97775A188DB097004CE4EA /* AppDelegate.m in Sources */,
+				3EB6EF211896023A00EAD730 /* RootViewController.m in Sources */,
 				3E977756188DB097004CE4EA /* main.m in Sources */,
 				3E342A211894D038004C262A /* ReceiveViewController.m in Sources */,
+				3EB6EF1E1896001400EAD730 /* circularButton.m in Sources */,
 				3E977780188DB0F5004CE4EA /* NSString+morseCode.m in Sources */,
 				3E342A241894D36B004C262A /* CFMagicEvents.m in Sources */,
 			);

@@ -67,6 +67,13 @@
     NSError *error = nil;
     
     AVCaptureDevice *captureDevice = [self searchForBackCameraIfAvailable];
+    
+    //playing with the exposure
+    
+//    [captureDevice lockForConfiguration:&error];
+//    captureDevice.exposureMode = AVCaptureFocusModeLocked;
+//    [captureDevice unlockForConfiguration];
+    
     AVCaptureDeviceInput *videoInput = [AVCaptureDeviceInput deviceInputWithDevice:captureDevice error:&error];
     if ( ! videoInput)
     {
