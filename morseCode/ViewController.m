@@ -20,6 +20,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *sendButton;
 @property (weak, nonatomic) IBOutlet UIButton *cancelButton;
 
+@property (nonatomic) BOOL animate;
+
 @property (strong,nonatomic) NSMutableArray *slicedText;
 - (IBAction)cancel:(id)sender;
 
@@ -61,7 +63,7 @@
 
 - (IBAction)send:(id)sender
 {
-    self.progressHud = [[M13ProgressViewRing alloc] initWithFrame:CGRectMake(self.view.bounds.size.width/2 - 50, self.view.bounds.size.height/2 - 100, 100,100)];
+    self.progressHud = [[M13ProgressViewRing alloc] initWithFrame:CGRectMake(self.view.bounds.size.width/2 - 50, self.view.bounds.size.height/2 - 75, 100,100)];
     [self.progressHud setProgress:0.0 animated:YES];
     
     
@@ -80,6 +82,9 @@
     self.textField.text = @"";
         
     [self.textField resignFirstResponder];
+    
+    self.animate = YES;
+    [self rotateLabelDown];
 
 }
 
@@ -104,6 +109,9 @@
     
     if (progress == 1.000000) {
         [self.progressHud setHidden:YES];
+        self.animate = NO;
+        self.letterLabel.text = @"";
+
         [self performSelector:@selector(clearText) withObject:nil afterDelay:0.5];
         
     }
@@ -112,7 +120,6 @@
 
 - (void)clearText
 {
-    self.letterLabel.text = @"";
     NSLog(@"TEXT SHOULD BE CLEAR");
 }
 
@@ -129,5 +136,30 @@
     [self.torch cancelAllBackgroundOperations];
     self.textField.text = @"";
     self.letterLabel.text = @"";
+}
+
+-(void)rotateLabelDown
+{
+    [UIView animateWithDuration:0.5
+                     animations:^{
+                         self.sendButton.transform = CGAffineTransformMakeRotation(M_PI);
+                     }
+                     completion:^(BOOL finished){
+                         [self rotateLabelUp];
+                     }];
+}
+
+-(void)rotateLabelUp
+{
+    [UIView animateWithDuration:0.5
+                     animations:^{
+                         self.sendButton.transform = CGAffineTransformMakeRotation(0);
+                     }
+                     completion:^(BOOL finished){
+                         
+                         if (self.animate) {
+                             [self rotateLabelDown];
+                         }
+                     }];
 }
 @end

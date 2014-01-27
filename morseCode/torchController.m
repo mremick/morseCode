@@ -61,7 +61,10 @@
     self.backgroundQueue = [[NSOperationQueue alloc] init];
     [self.backgroundQueue setMaxConcurrentOperationCount:1];
     
-    
+    [self turnOnFlash:self.captureDevice];
+    usleep(1000000);
+    [self turnOffFlash:self.captureDevice];
+    usleep(1000000);
     
     [self.delegate letterHasChanged:i];
     
@@ -71,9 +74,9 @@
             
             [self.backgroundQueue addOperationWithBlock:^{
                 [self turnOnFlash:self.captureDevice];
-                usleep(UNIT);//UNIT
+                usleep(UNIT*1.5);//UNIT
                 [self turnOffFlash:self.captureDevice];
-                usleep(UNIT);
+                usleep(UNIT*1.5);
                 [self pauseBetweenLetters];
                 NSLog(@"SYMBOL:%@",symbol);
                 hudProgress ++;
@@ -87,9 +90,9 @@
             
             [self.backgroundQueue addOperationWithBlock:^{
                 [self turnOnFlash:self.captureDevice];
-                usleep(UNIT*3); //UNIT*3
+                usleep(UNIT*4.5); //UNIT*3
                 [self turnOffFlash:self.captureDevice];
-                usleep(UNIT*3);
+                usleep(UNIT*4.5);
                 [self pauseBetweenLetters];
                 NSLog(@"SYMBOL:%@",symbol);
                 hudProgress++;
@@ -104,9 +107,9 @@
             
             [self.backgroundQueue addOperationWithBlock:^{
                 [self turnOnFlash:self.captureDevice];
-                usleep(UNIT); //UNIT
+                usleep(UNIT*1.5); //UNIT
                 [self turnOffFlash:self.captureDevice];
-                usleep(UNIT);
+                usleep(UNIT*1.5);
                 [self pauseBetweenLetters];
                 NSLog(@"SYMBOL:%@",symbol);
                 hudProgress++;
@@ -140,7 +143,7 @@
             
             [self.backgroundQueue addOperationWithBlock:^{
                 //[self turnOnFlash:self.captureDevice];
-                usleep(UNIT*7); //UNIT*7
+                usleep(UNIT*8.5); //UNIT*7
                 //[self turnOffFlash:self.captureDevice];
                 //usleep(UNIT*5);
                 [self pauseBetweenLetters];
@@ -204,7 +207,7 @@
 - (void)pauseBetweenLetters
 {
     [self.backgroundQueue addOperationWithBlock:^{
-        usleep(UNIT);
+        usleep(UNIT*1.5);
     }];
 }
 

@@ -14,6 +14,10 @@
 - (IBAction)startReceiving:(id)sender;
 @property (strong,nonatomic) NSMutableArray *symbolsArray;
 @property (strong,nonatomic) NSString *symbolsTogether;
+@property (weak, nonatomic) IBOutlet UIButton *receiveButton;
+@property (weak, nonatomic) IBOutlet UIButton *cancelButton;
+
+@property (nonatomic) BOOL animate; 
 
 @end
 
@@ -35,6 +39,8 @@
     self.symbolsArray = [NSMutableArray new];
     self.symbolsTogether = [NSString new];
     
+    self.receiveButton.layer.cornerRadius = 60;
+    self.cancelButton.layer.cornerRadius = 60;
     
 }
 
@@ -57,13 +63,20 @@
 -(void)receiveOnMagicEventDetected:(NSNotification *) notification
 {
     dispatch_async(dispatch_get_main_queue(), ^{
-        //YOUR CODE HERE
-        //NSLog(@"light seen interval:%d",self.lightSeen);
-        [self turnIntToSymbolForLight:self.lightSeen];
+        
+        [self checkForEnd:self.lightNotSeen];
+        
+        if (self.lightSeen) {
+            [self turnIntToSymbolForLight:self.lightSeen];
+            
+        }
+        
         self.lightSeen = 0;
-        [self turnIntToSymbolForDrkness:self.lightNotSeen];
-
+        
+        
         self.lightNotSeen++;
+        //YOUR CODE HERE
+        
     });
 }
 
@@ -72,8 +85,23 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         //YOUR CODE HERE
         //NSLog(@"light not seen interval:%d",self.lightNotSeen);
+        //NSLog(@"light not seen");
+        //NSLog(@"light NOT seen interval:%d",self.lightNotSeen);
+        //NSLog(@"see light method");
+        
+        if (self.lightNotSeen) {
+            [self turnIntToSymbolForDrkness:self.lightNotSeen];
+            
+        }
+        
+        
+        //NSLog(@"light seen");
         self.lightNotSeen = 0;
+        
+        
         self.lightSeen++;
+
+
     });
 }
 
@@ -88,13 +116,17 @@
     _cfMagicEvents  = [[CFMagicEvents alloc] init];
     [_cfMagicEvents startCapture];
     
+    
+    
     NSLog(@"start receiving selected");
+    [self rotateLabelDown];
+    self.animate = YES;
 }
 
 - (void)turnIntToSymbolForLight:(int)timeInterval{
     //NSLog(@"light interval:%d",timeInterval);
-    //NSLog(@"light interval: %d",timeInterval);
-    if (timeInterval > 2 && timeInterval <= 8) {
+   // NSLog(@"light interval: %d",timeInterval);
+    if (timeInterval > 1 && timeInterval <= 4) {
         NSLog(@".");
         if ([self.symbolsTogether length] == 0) {
             self.symbolsTogether = @".";
@@ -105,7 +137,7 @@
         }
     }
     
-    else if (timeInterval >= 9) {
+    else if (timeInterval >= 5 && timeInterval <=9) {
         NSLog(@"-");
         if ([self.symbolsTogether length] == 0) {
             self.symbolsTogether = @"-";
@@ -115,14 +147,14 @@
             [self.symbolsTogether stringByAppendingString:@"-"];
 
         }
-
+        
     }
 }
 
 - (void)turnIntToSymbolForDrkness:(int)timeInterval{
     //NSLog(@"darkness interval interval:%d",timeInterval);
     
-    if (timeInterval > 4 && timeInterval <= 50) {
+    if (timeInterval > 5 && timeInterval <= 50) {
         NSLog(@" ");
         [self.symbolsArray addObject:self.symbolsTogether];
         [self.symbolsArray addObject:@" "];
@@ -130,11 +162,43 @@
         self.symbolsTogether = [NSString new];
     }
     
-    else if (timeInterval == 50) {
+    
+    
+    
+}
+
+- (void)checkForEnd:(int)darknessTime
+{
+    
+    if (darknessTime > 100) {
         [_cfMagicEvents stopCapture];
         NSLog(@"ARRAY: %@",self.symbolsArray);
+        self.animate = NO;
     }
-    
-    
+}
+
+-(void)rotateLabelDown
+{
+    [UIView animateWithDuration:0.5
+                     animations:^{
+                         self.receiveButton.transform = CGAffineTransformMakeRotation(M_PI);
+                     }
+                     completion:^(BOOL finished){
+                         [self rotateLabelUp];
+                     }];
+}
+
+-(void)rotateLabelUp
+{
+    [UIView animateWithDuration:0.5
+                     animations:^{
+                         self.receiveButton.transform = CGAffineTransformMakeRotation(0);
+                     }
+                     completion:^(BOOL finished){
+                         
+                         if (self.animate) {
+                             [self rotateLabelDown];
+                         }
+                     }];
 }
 @end
